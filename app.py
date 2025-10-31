@@ -14,7 +14,7 @@ from nltk.stem import WordNetLemmatizer
 
 # Configuration
 st.set_page_config(
-    page_title="Détection de Dépression - Modèle ML",
+    page_title="Analyseur de Santé Mentale IA",
     page_icon="🧠",
     layout="wide"
 )
@@ -64,7 +64,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Titre principal
-st.markdown('<h1 class="main-title">🧠 Détection de Dépression - Modèle ML Professionnel</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-title">🧠 Analyseur de Santé Mentale IA</h1>', unsafe_allow_html=True)
 
 # Charger le modèle et les données
 @st.cache_resource
@@ -85,7 +85,7 @@ def clean_text(text):
     if not isinstance(text, str):
         return ""
     text = re.sub(r'http\S+', '', text)
-    text = re.sub(r'[^a-zA-Z\s]', '', text)
+    text = re.sub(r'[^a-zA-Z\\s]', '', text)
     text = text.lower()
     try:
         stop_words = set(stopwords.words('english'))
@@ -100,20 +100,20 @@ def clean_text(text):
 model, vectorizer, top_words, performance = load_model()
 
 if model is None:
-    st.error("❌ Impossible de charger le modèle. Vérifiez les fichiers.")
+    st.error("Impossible de charger le modèle. Vérifiez les fichiers.")
 else:
     # Navigation
-    page = st.sidebar.radio("📊 Navigation", 
-                           ["🏠 Accueil", "🔍 Détection ML", "📈 Performances", "🔑 Mots Importants"])
+    page = st.sidebar.radio("Navigation", 
+                           ["Accueil", "Détection IA", "Performances", "Mots Importants"])
     
-    if page == "🏠 Accueil":
-        st.header("🎯 Présentation du Modèle ML")
+    if page == "Accueil":
+        st.header("Présentation du Système IA")
         
         col1, col2 = st.columns(2)
         
         with col1:
             st.info("""
-            **🤖 Modèle Machine Learning :**
+            **Modèle Machine Learning :**
             - Regression Logistique
             - Vectorisation TF-IDF
             - Entraîné sur 6000 posts Reddit
@@ -122,7 +122,7 @@ else:
         
         with col2:
             st.success("""
-            **📊 Dataset :**
+            **Base de Données :**
             - 1202 posts de dépression
             - 4755 posts autres
             - Textes nettoyés et prétraités
@@ -130,35 +130,35 @@ else:
             """)
         
         st.markdown("---")
-        st.subheader("🚀 Fonctionnalités Avancées")
+        st.subheader("Fonctionnalités Avancées")
         st.write("""
-        Cette application utilise le **vrai modèle ML entraîné** pour :
+        Cette application utilise le modèle ML entraîné pour :
         - Analyser le texte avec l'intelligence artificielle
         - Donner un score de confiance probabiliste
         - Identifier les mots les plus prédictifs
         - Fournir une analyse détaillée
         """)
     
-    elif page == "🔍 Détection ML":
-        st.header("🔍 Détection par Modèle ML")
-        st.write("**Analyse de texte avec intelligence artificielle**")
+    elif page == "Détection IA":
+        st.header("Détection par Intelligence Artificielle")
+        st.write("Analyse de texte avec modèle ML")
         
         # Zone de texte
         user_text = st.text_area(
             "Entrez le texte à analyser :",
-            placeholder="Exemple: 'I feel so sad and hopeless these days, I cant sleep and everything seems empty...'",
+            placeholder="Exemple: I feel so sad and hopeless these days, I cant sleep and everything seems empty...",
             height=150
         )
         
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            analyze_btn = st.button("🤖 Analyser avec le Modèle ML", type="primary", use_container_width=True)
+            analyze_btn = st.button("Analyser avec l'IA", type="primary", use_container_width=True)
         
         if analyze_btn:
             if not user_text.strip():
-                st.error("❌ Veuillez entrer un texte à analyser")
+                st.error("Veuillez entrer un texte à analyser")
             else:
-                with st.spinner("🔬 Analyse en cours par le modèle ML..."):
+                with st.spinner("Analyse en cours par le modèle ML..."):
                     # Nettoyage du texte
                     cleaned_text = clean_text(user_text)
                     
@@ -184,22 +184,20 @@ else:
                     important_detected.sort(key=lambda x: x[1], reverse=True)
                     
                     # Affichage des résultats
-                    st.subheader("📊 Résultats du Modèle ML")
+                    st.subheader("Résultats de l'Analyse IA")
                     
                     # Box de résultat
                     if prediction == 1:
                         risk_class = "high-risk"
                         risk_level = "DÉPRESSION DÉTECTÉE"
-                        emoji = "🔴"
                         confidence_pct = probabilities[1] * 100
                     else:
                         risk_class = "low-risk" 
                         risk_level = "PAS DE DÉPRESSION"
-                        emoji = "✅"
                         confidence_pct = probabilities[0] * 100
                     
                     st.markdown(f'<div class="result-box {risk_class}">', unsafe_allow_html=True)
-                    st.markdown(f'<h2>{emoji} {risk_level}</h2>', unsafe_allow_html=True)
+                    st.markdown(f'<h2>{risk_level}</h2>', unsafe_allow_html=True)
                     st.markdown(f'<h3>Confiance du modèle: {confidence_pct:.1f}%</h3>', unsafe_allow_html=True)
                     st.markdown('</div>', unsafe_allow_html=True)
                     
@@ -221,7 +219,7 @@ else:
                     
                     # Mots importants détectés
                     if important_detected:
-                        st.subheader("🔍 Mots Importants Détectés")
+                        st.subheader("Mots Importants Détectés")
                         words_df = pd.DataFrame(important_detected, columns=['Mot', 'Coefficient'])
                         st.dataframe(words_df.head(10), use_container_width=True)
                         
@@ -230,17 +228,17 @@ else:
                         top_5 = words_df.head(5)
                         colors = ['red' if coef > 0 else 'green' for coef in top_5['Coefficient']]
                         ax.barh(top_5['Mot'], top_5['Coefficient'], color=colors)
-                        ax.set_title('Top 5 Mots les Plus Importants (Coefficients du Modèle)')
+                        ax.set_title('Top 5 Mots les Plus Importants')
                         ax.set_xlabel('Coefficient (Importance)')
                         st.pyplot(fig)
                     
                     # Recommandations
-                    st.subheader("💡 Analyse et Recommandations")
+                    st.subheader("Analyse et Recommandations")
                     
                     if prediction == 1:
                         st.error(f"""
-                        **🔴 Le modèle a détecté des signes de dépression avec {confidence_pct:.1f}% de confiance.**
-                        
+                        **Le modèle a détecté des signes de dépression avec {confidence_pct:.1f}% de confiance.**
+
                         **Recommandations :**
                         - Consultez un professionnel de santé mentale
                         - Parlez à des personnes de confiance
@@ -249,16 +247,16 @@ else:
                         """)
                     else:
                         st.success(f"""
-                        **✅ Le modèle n'a pas détecté de signes de dépression ({confidence_pct:.1f}% de confiance).**
-                        
+                        **Le modèle n'a pas détecté de signes de dépression ({confidence_pct:.1f}% de confiance).**
+
                         **Conseils de bien-être :**
                         - Continuez à prendre soin de votre santé mentale
                         - Maintenez une routine équilibrée
                         - Restez connecté avec vos proches
                         """)
     
-    elif page == "📈 Performances":
-        st.header("📈 Performances du Modèle")
+    elif page == "Performances":
+        st.header("Performances du Modèle")
         
         if performance:
             col1, col2, col3 = st.columns(3)
@@ -273,7 +271,7 @@ else:
                 st.metric("Rappel Dépression", f"{performance['recall_depression']:.1%}")
             
             # Graphique de performance
-            st.subheader("📊 Métriques de Performance")
+            st.subheader("Métriques de Performance")
             metrics = ['Accuracy', 'Précision', 'Rappel']
             values = [performance['accuracy'], performance['precision_depression'], performance['recall_depression']]
             
@@ -291,15 +289,15 @@ else:
             st.pyplot(fig)
             
             st.info("""
-            **📝 Interprétation :**
+            **Interprétation :**
             - **Accuracy** : Pourcentage global de bonnes prédictions
             - **Précision** : Parmi les prédits "dépression", combien le sont vraiment
             - **Rappel** : Parmi les vrais "dépression", combien sont détectés
             """)
     
-    elif page == "🔑 Mots Importants":
-        st.header("🔑 Mots les Plus Importants")
-        st.write("**Analyse des coefficients du modèle de régression logistique**")
+    elif page == "Mots Importants":
+        st.header("Mots les Plus Importants")
+        st.write("Analyse des coefficients du modèle de régression logistique")
         
         if top_words is not None:
             # Top 20 mots dépression
@@ -309,7 +307,7 @@ else:
             col1, col2 = st.columns(2)
             
             with col1:
-                st.subheader("📈 Mots Associés à la Dépression")
+                st.subheader("Mots Associés à la Dépression")
                 st.dataframe(top_20_depression, use_container_width=True)
                 
                 # Graphique mots dépression
@@ -320,7 +318,7 @@ else:
                 st.pyplot(fig1)
             
             with col2:
-                st.subheader("📉 Mots Associés au Non-Dépression")
+                st.subheader("Mots Associés au Non-Dépression")
                 st.dataframe(top_20_other, use_container_width=True)
                 
                 # Graphique mots non-dépression
@@ -331,7 +329,7 @@ else:
                 st.pyplot(fig2)
             
             st.info("""
-            **💡 Explication :**
+            **Explication :**
             - **Coefficient positif** : Le mot est associé à la dépression
             - **Coefficient négatif** : Le mot est associé à l'absence de dépression
             - Ces coefficients viennent de l'analyse réelle des données Reddit
@@ -341,6 +339,6 @@ else:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: #7f8c8d;'>
-    <p>🧠 <em>Modèle ML Professionnel - Détection de Dépression - Accuracy: 85%</em></p>
+    <p>Analyseur de Santé Mentale IA - Modèle ML Professionnel</p>
 </div>
 """, unsafe_allow_html=True)

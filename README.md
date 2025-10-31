@@ -1,20 +1,17 @@
 
-# 🧠 Détection de Dépression - Modèle ML Complet
+# 🧠 Analyseur de Santé Mentale IA
 
-## Fichiers inclus :
-- app.py : Application Streamlit professionnelle
-- requirements.txt : Dépendances Python
+Application de détection de dépression par Machine Learning
+
+## Fichiers :
+- app.py : Application Streamlit
+- requirements.txt : Dépendances
 - model.pkl : Modèle ML entraîné
 - vectorizer.pkl : Vectoriseur TF-IDF
 - top_depression_words.csv : Mots importants
-- model_performance.json : Performances du modèle
+- model_performance.json : Performances
 
-## Installation :
-1. Dézipper ce dossier
-2. Ouvrir un terminal dans le dossier
-3. pip install -r requirements.txt
-4. streamlit run app.py
-5. Ouvrir http://localhost:8501
-
-## Hébergement web :
-Uploader tous ces fichiers sur GitHub puis déployer sur Streamlit Cloud.
+## Déploiement :
+1. Uploader sur GitHub
+2. Déployer sur Streamlit Cloud
+3. Main file path: app.py
